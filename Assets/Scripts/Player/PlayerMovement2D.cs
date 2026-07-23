@@ -40,6 +40,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (horizontalInput > 0) FacingDirection = 1;
         else if (horizontalInput < 0) FacingDirection = -1;
+        transform.localScale = new Vector3(FacingDirection, 1f, 1f);
 
         IsGrounded = groundCheck != null &&
             Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
