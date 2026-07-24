@@ -32,6 +32,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     [SerializeField] private VoidEventChannelSO onPlayerDied;
     public Rigidbody2D Rb { get; private set; }
+    public Animator Animator { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool IsTouchingWall { get; private set; }
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
@@ -42,6 +43,7 @@ public class PlayerMovement2D : MonoBehaviour
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
 
         // Ensure the rigidbody has zero friction so pressing into a wall never
         // produces contact friction that drags down vertical velocity.
@@ -71,6 +73,8 @@ public class PlayerMovement2D : MonoBehaviour
         {
             onPlayerDied?.Raise();
         }
+
+        Animation();
     }
 
     private void FixedUpdate()
@@ -104,6 +108,12 @@ public class PlayerMovement2D : MonoBehaviour
             // an override (dash, etc.) ends, instead of snapping/jerking.
             currentHorizontalVelocity = Rb.linearVelocity.x;
         }
+    }
+
+    private void Animation()
+    {
+        Animator.SetFloat("Speed", Mathf.Abs(currentHorizontalVelocity));
+        Animator.SetBool("IsGrounded", IsGrounded);
     }
 
     // ---- Hooks for action scripts (Jump, Dash, etc.) to use ----
