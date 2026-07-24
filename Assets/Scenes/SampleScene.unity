@@ -542,6 +542,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1034383359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &581091336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581091338}
+  - component: {fileID: 581091337}
+  m_Layer: 0
+  m_Name: Gane Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &581091337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581091336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5272f4692ab7d46bfba64522f3b0d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSequence: {fileID: 11400000, guid: 2606f2b229550a7428828f8c5a3261e3, type: 2}
+  moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
+  onRoundComplete: {fileID: 11400000, guid: 698578455b4828e48ba7eb935d93ceac, type: 2}
+  onPlayerDied: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
+  onLevelLoaded: {fileID: 11400000, guid: ed2cf60b743e40a41b3517ad68f3dbbb, type: 2}
+  onRunComplete: {fileID: 11400000, guid: 698578455b4828e48ba7eb935d93ceac, type: 2}
+--- !u!4 &581091338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581091336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +890,8 @@ GameObject:
   - component: {fileID: 1034383357}
   - component: {fileID: 1034383356}
   - component: {fileID: 1034383355}
+  - component: {fileID: 1034383363}
+  - component: {fileID: 1034383362}
   - component: {fileID: 1034383360}
   - component: {fileID: 1034383361}
   m_Layer: 6
@@ -1052,6 +1104,33 @@ MonoBehaviour:
   cooldown: 0.1
   dashSpeed: 18
   dashDuration: 0.15
+--- !u!114 &1034383362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034383354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352af2d40c5d2704688b7a824fb2113c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLevelLoaded: {fileID: 11400000, guid: ed2cf60b743e40a41b3517ad68f3dbbb, type: 2}
+--- !u!114 &1034383363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034383354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed9566491157baa4c8bc03c748c4e062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPlayerDied: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
+  playerTag: Player
 --- !u!1 &1244027350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,3 +2884,4 @@ SceneRoots:
   - {fileID: 1444908153}
   - {fileID: 2052828569}
   - {fileID: 448600524}
+  - {fileID: 581091338}
