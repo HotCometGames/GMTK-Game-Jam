@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      whitegridbackgroundrepetable_0: -7491827406113327952
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

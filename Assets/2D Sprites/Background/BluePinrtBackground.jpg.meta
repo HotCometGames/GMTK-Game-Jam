@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BluePinrtBackground_0: -7114754768789317225
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
