@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    [Header("Debug Mode")]
+    [SerializeField] private bool debugMode = false;
     [Header("Run Data")]
     [SerializeField] private LevelSequenceSO levelSequence;
     [SerializeField] private MoveBudgetSO moveBudget;
@@ -39,6 +41,15 @@ public class GameManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Update()
+    {
+        // Debug hotkeys for testing
+        if (Input.GetKeyDown(KeyCode.R))
+            LoadLevel(currentLevelIndex);
+        if (Input.GetKeyDown(KeyCode.N) && debugMode)
+            LoadLevel(currentLevelIndex + 1);
     }
 
     private void OnEnable()
@@ -77,7 +88,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlayerDied()
     {
-        LoadLevel(0);
+        LoadLevel(currentLevelIndex);
     }
 
     private void LoadLevel(int index)

@@ -22,6 +22,7 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private float wallCheckRadius = 0.15f;
     [SerializeField] private LayerMask wallLayer;
 
+    [SerializeField] private VoidEventChannelSO onPlayerDied;
     public Rigidbody2D Rb { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool IsTouchingWall { get; private set; }
@@ -47,6 +48,11 @@ public class PlayerMovement2D : MonoBehaviour
 
         IsTouchingWall = wallCheck != null &&
             Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
+
+        if (transform.position.y < -20f)
+        {
+            onPlayerDied?.Raise();
+        }
     }
 
     private void FixedUpdate()
