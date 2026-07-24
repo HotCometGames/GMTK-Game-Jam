@@ -222,6 +222,8 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
+  landingSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a43, type: 2}
+  landingSpeedThreshold: 5
   onPlayerDied: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
 --- !u!114 &102077792284116639
 MonoBehaviour:
@@ -252,6 +254,7 @@ MonoBehaviour:
   inputKey: 32
   cost: 1
   cooldown: 0.1
+  performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a41, type: 2}
   jumpForce: 8
 --- !u!114 &-1302196782285357444
 MonoBehaviour:
@@ -269,6 +272,7 @@ MonoBehaviour:
   inputKey: 304
   cost: 1
   cooldown: 0.1
+  performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a42, type: 2}
   dashSpeed: 18
   dashDuration: 0.15
 --- !u!1 &5620409473913698528
