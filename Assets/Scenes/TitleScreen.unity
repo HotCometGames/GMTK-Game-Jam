@@ -600,6 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5272f4692ab7d46bfba64522f3b0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 1
   levelSequence: {fileID: 11400000, guid: 2606f2b229550a7428828f8c5a3261e3, type: 2}
   moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
   sceneFader: {fileID: 164631426}
