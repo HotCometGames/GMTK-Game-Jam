@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [Header("Run Data")]
     [SerializeField] private LevelSequenceSO levelSequence;
     [SerializeField] private MoveBudgetSO moveBudget;
+    [SerializeField] private SceneFader sceneFader;
 
     [Header("Listens To")]
     [SerializeField] private VoidEventChannelSO onRoundComplete;   // raised by LevelExitTrigger
@@ -98,11 +99,18 @@ public class GameManager : MonoBehaviour
     {
         isLoading = true;
 
+        if (sceneFader != null)
+            yield return StartCoroutine(sceneFader.FadeOut());
+
         AsyncOperation op = SceneManager.LoadSceneAsync(levelData.sceneName, LoadSceneMode.Single);
         while (op != null && !op.isDone)
             yield return null;
 
-        isLoading = false;
         onLevelLoaded?.Raise(levelData);
+
+        if (sceneFader != null)
+            yield return StartCoroutine(sceneFader.FadeIn());
+
+        isLoading = false;
     }
 }
