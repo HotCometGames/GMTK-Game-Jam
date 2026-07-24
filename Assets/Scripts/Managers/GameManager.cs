@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("Listens To")]
     [SerializeField] private VoidEventChannelSO onRoundComplete;   // raised by LevelExitTrigger
     [SerializeField] private VoidEventChannelSO onPlayerDied;      // raised by PlayerDeathTrigger
+    [SerializeField] private VoidEventChannelSO onStartRunRequested; // raised by the title screen's Play button
 
     [Header("Broadcasts")]
     [SerializeField] private LevelEventChannelSO onLevelLoaded;    // level just finished loading
@@ -43,18 +44,23 @@ public class GameManager : MonoBehaviour
     {
         if (onRoundComplete != null) onRoundComplete.OnEventRaised += HandleRoundComplete;
         if (onPlayerDied != null) onPlayerDied.OnEventRaised += HandlePlayerDied;
+        if (onStartRunRequested != null) onStartRunRequested.OnEventRaised += HandleStartRun;
     }
 
     private void OnDisable()
     {
         if (onRoundComplete != null) onRoundComplete.OnEventRaised -= HandleRoundComplete;
         if (onPlayerDied != null) onPlayerDied.OnEventRaised -= HandlePlayerDied;
+        if (onStartRunRequested != null) onStartRunRequested.OnEventRaised -= HandleStartRun;
     }
 
-    private void Start()
+    private void HandleStartRun()
     {
+        moveBudget.ResetBudget();
         LoadLevel(0);
     }
+
+    // Waits at the title screen — LoadLevel(0) only runs once HandleStartRun() fires.
 
     private void HandleRoundComplete()
     {
