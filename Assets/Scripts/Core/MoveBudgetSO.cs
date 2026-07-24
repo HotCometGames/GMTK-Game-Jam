@@ -36,10 +36,16 @@ public class MoveBudgetSO : ScriptableObject
         return true;
     }
 
-    /// <summary>Call from RunController on death / new run.</summary>
+    /// <summary>Call from RunController on death / new run. Resets to this asset's own default.</summary>
     public void ResetBudget()
     {
-        CurrentMoves = startingMoves;
+        ResetBudget(startingMoves);
+    }
+
+    /// <summary>Resets to a specific amount, e.g. a level's own starting move count.</summary>
+    public void ResetBudget(int amount)
+    {
+        CurrentMoves = amount;
         onMovesChanged?.Raise(CurrentMoves);
         onBudgetReset?.Raise();
     }

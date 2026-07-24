@@ -12,6 +12,7 @@ public class LevelExitTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log($"LevelExitTrigger: OnTriggerEnter2D with {other.name}");
         if (!other.CompareTag(playerTag)) return;
         onRoundComplete?.Raise();
     }

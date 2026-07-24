@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleStartRun()
     {
-        moveBudget.ResetBudget();
         LoadLevel(0);
     }
 
@@ -78,7 +77,6 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlayerDied()
     {
-        moveBudget.ResetBudget();
         LoadLevel(0);
     }
 
@@ -106,6 +104,7 @@ public class GameManager : MonoBehaviour
         while (op != null && !op.isDone)
             yield return null;
 
+        moveBudget.ResetBudget(levelData.startingMoves);
         onLevelLoaded?.Raise(levelData);
 
         if (sceneFader != null)
