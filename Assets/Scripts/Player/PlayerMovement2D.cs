@@ -114,6 +114,7 @@ public class PlayerMovement2D : MonoBehaviour
     {
         Animator.SetFloat("Speed", Mathf.Abs(currentHorizontalVelocity));
         Animator.SetBool("IsGrounded", IsGrounded);
+        Animator.SetFloat("YSpeed", Rb.linearVelocity.y);
     }
 
     // ---- Hooks for action scripts (Jump, Dash, etc.) to use ----
