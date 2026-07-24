@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dd3dc486fba6244cae81c41ceba7674, type: 3}
-  m_Name: Level Sequence
+  m_Script: {fileID: 11500000, guid: d9d681aee5dc1794bb49bf75baf6005c, type: 3}
+  m_Name: Level_1
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: 3d20554c9c3de004585a410425d820a6, type: 2}
-  - {fileID: 11400000, guid: 2a0c678e76d062b41a54a2683da259c7, type: 2}
+  levelName: Level 1
+  sceneName: Level1
+  parMoveCount: 4
+  unlockedActionNames:
+  - JumpAction

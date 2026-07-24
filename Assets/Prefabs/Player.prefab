@@ -46,8 +46,8 @@ GameObject:
   - component: {fileID: 5147380001253423943}
   - component: {fileID: 6381211705777394583}
   - component: {fileID: 102077792284116639}
-  - component: {fileID: 4097718538955413611}
-  - component: {fileID: 4287147248384098747}
+  - component: {fileID: -6350170397663817073}
+  - component: {fileID: -1302196782285357444}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onLevelLoaded: {fileID: 11400000, guid: ed2cf60b743e40a41b3517ad68f3dbbb, type: 2}
---- !u!114 &4097718538955413611
+--- !u!114 &-6350170397663817073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,7 +267,7 @@ MonoBehaviour:
   cost: 1
   cooldown: 0.1
   jumpForce: 8
---- !u!114 &4287147248384098747
+--- !u!114 &-1302196782285357444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
