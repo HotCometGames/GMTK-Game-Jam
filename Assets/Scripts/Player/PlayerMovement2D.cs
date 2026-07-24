@@ -13,6 +13,8 @@ public class PlayerMovement2D : MonoBehaviour
 {
     [Header("Walking (always free)")]
     [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float acceleration = 40f;   // units/sec^2 while input is held
+    [SerializeField] private float deceleration = 50f;   // units/sec^2 while no input (or overshooting)
 
     [Header("Ground / Wall Detection")]
     [SerializeField] private Transform groundCheck;
@@ -22,6 +24,12 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private float wallCheckRadius = 0.15f;
     [SerializeField] private LayerMask wallLayer;
 
+    [Header("Wall Contact")]
+    [Tooltip("If no material is assigned, one with 0 friction/bounciness is created automatically. " +
+             "This prevents the physics solver from bleeding horizontal push into vertical drag " +
+             "(the 'stuck to the wall' freeze).")]
+    [SerializeField] private PhysicsMaterial2D wallFrictionOverride;
+
     [SerializeField] private VoidEventChannelSO onPlayerDied;
     public Rigidbody2D Rb { get; private set; }
     public bool IsGrounded { get; private set; }
@@ -29,10 +37,20 @@ public class PlayerMovement2D : MonoBehaviour
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
 
     private float horizontalInput;
+    private float currentHorizontalVelocity;
 
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
+
+        // Ensure the rigidbody has zero friction so pressing into a wall never
+        // produces contact friction that drags down vertical velocity.
+        if (Rb.sharedMaterial == null)
+        {
+            Rb.sharedMaterial = wallFrictionOverride != null
+                ? wallFrictionOverride
+                : new PhysicsMaterial2D("PlayerNoFriction") { friction = 0f, bounciness = 0f };
+        }
     }
 
     private void Update()
@@ -60,7 +78,31 @@ public class PlayerMovement2D : MonoBehaviour
         // Free horizontal movement — actions can override this per-frame via SetHorizontalOverride
         if (!horizontalOverrideActive)
         {
-            Rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, Rb.linearVelocity.y);
+            float targetVelocity = horizontalInput * moveSpeed;
+
+            // If we're touching a wall AND actively pushing into it (input matches the
+            // direction we're facing, which is the direction wallCheck points), don't
+            // command velocity into the wall at all. This is what actually stops the
+            // "freeze" — we're not fighting the solver, so it never has to apply a
+            // corrective/frictional force that could bleed into the vertical axis.
+            // Vertical velocity (gravity, jump arcs, etc.) is completely untouched below,
+            // so the player keeps falling/rising and slides freely along the wall.
+            bool pushingIntoWall = IsTouchingWall && Mathf.Sign(horizontalInput) == FacingDirection && horizontalInput != 0;
+            if (pushingIntoWall)
+            {
+                targetVelocity = 0f;
+            }
+
+            float rate = Mathf.Abs(horizontalInput) > 0.01f && !pushingIntoWall ? acceleration : deceleration;
+            currentHorizontalVelocity = Mathf.MoveTowards(currentHorizontalVelocity, targetVelocity, rate * Time.fixedDeltaTime);
+
+            Rb.linearVelocity = new Vector2(currentHorizontalVelocity, Rb.linearVelocity.y);
+        }
+        else
+        {
+            // Keep our tracked value in sync so acceleration resumes smoothly once
+            // an override (dash, etc.) ends, instead of snapping/jerking.
+            currentHorizontalVelocity = Rb.linearVelocity.x;
         }
     }
 
@@ -81,6 +123,7 @@ public class PlayerMovement2D : MonoBehaviour
     public void SetVelocity(Vector2 velocity)
     {
         Rb.linearVelocity = velocity;
+        currentHorizontalVelocity = velocity.x;
     }
 
     private void OnDrawGizmosSelected()
