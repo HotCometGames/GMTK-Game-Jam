@@ -358,6 +358,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   wallFrictionOverride: {fileID: 0}
+  landingSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a43, type: 2}
+  landingSpeedThreshold: 5
   onPlayerDied: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
 --- !u!114 &102077792284116639
 MonoBehaviour:
@@ -388,7 +390,8 @@ MonoBehaviour:
   inputKey: 32
   cost: 1
   cooldown: 0.1
-  jumpForce: 8
+  performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a41, type: 2}
+  jumpForce: 6
 --- !u!114 &-1302196782285357444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +408,8 @@ MonoBehaviour:
   inputKey: 304
   cost: 1
   cooldown: 0.1
-  dashSpeed: 18
+  performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a42, type: 2}
+  dashSpeed: 10
   dashDuration: 0.15
 --- !u!114 &-1852962083824492473
 MonoBehaviour:
@@ -423,6 +427,7 @@ MonoBehaviour:
   inputKey: 323
   cost: 1
   cooldown: 0.1
+  performSound: {fileID: 0}
   checkDistance: 0.6
   pushableLayer:
     serializedVersion: 2
@@ -443,6 +448,7 @@ MonoBehaviour:
   inputKey: 324
   cost: 1
   cooldown: 0.2
+  performSound: {fileID: 0}
   range: 6
   pullSpeed: 12
   maxGrappleDuration: 2
