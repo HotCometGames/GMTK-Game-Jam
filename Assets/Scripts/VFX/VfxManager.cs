@@ -157,6 +157,10 @@ public class VfxManager : MonoBehaviour
         ParticleSystem system = NextEmitter(vfxEvent);
         if (system == null) return;
 
+        // If we had to steal a still-playing emitter, clear it so existing particles don't get their
+        // module-level settings (e.g. gravityModifier) changed mid-flight.
+        if (system.particleCount > 0) system.Clear();
+
         // gravityModifier is the one property EmitParams can't carry, so it lives on the module.
         var main = system.main;
         main.gravityModifier = vfxEvent.Gravity;
