@@ -2859,6 +2859,7 @@ GameObject:
   - component: {fileID: 794424581}
   - component: {fileID: 794424580}
   - component: {fileID: 794424579}
+  - component: {fileID: 794424582}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -2934,6 +2935,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &794424582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794424578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b8e259eb35b2d4d84ae812d17057d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleMaterial: {fileID: 2100000, guid: 3d643d124c18de94a80ffcc58f91cbbe, type: 2}
+  atlasColumns: 4
+  atlasRows: 4
+  sortingLayer: Default
+  sortingOrder: 5
+  emitterCount: 8
+  maxParticlesPerEmitter: 128
 --- !u!1 &821471507
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,4 +15,8 @@ public class JumpAction : MoveActionBase
     {
         movement.SetVerticalVelocity(jumpForce);
     }
+
+    // Push off downward: the dust is what the player kicked away to get airborne, so it should
+    // stay on the ground rather than following them up. VfxOrigin is already the feet.
+    protected override Vector2 VfxDirection => Vector2.down;
 }
