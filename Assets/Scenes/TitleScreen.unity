@@ -520,6 +520,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
+        m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &220460893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +653,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 1b4089af2a79ca945946e64092586bca, type: 2}
+        m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
         m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
         m_MethodName: Raise
         m_Mode: 1
@@ -979,6 +1003,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
+        m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &413319247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,6 +1136,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 26018f70cf59abe44ab475f807514ace, type: 2}
+        m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
         m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
         m_MethodName: Raise
         m_Mode: 1
@@ -2835,7 +2883,7 @@ MonoBehaviour:
     sound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a44, type: 2}
   - channel: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
     sound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a45, type: 2}
-  - channel: {fileID: 11400000, guid: 67d886236471e224d9adf363c01e1208, type: 2}
+  - channel: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
     sound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a46, type: 2}
   levelBindings: []
 --- !u!114 &794424580
@@ -2853,6 +2901,8 @@ MonoBehaviour:
   voicesPerBus: 6
   crispHighPassHz: 300
   cushionLowPassHz: 4500
+  crispMakeupGain: 2.5
+  cushionMakeupGain: 4
   masterVolume: 1
 --- !u!4 &794424581
 Transform:
@@ -2869,8 +2919,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &871964736
-PrefabInstance:
 --- !u!1 &821471507
 GameObject:
   m_ObjectHideFlags: 0
@@ -3844,6 +3892,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ca70c66679fde614cb0e42912bac1c1a, type: 2}
+        m_TargetAssemblyTypeName: VoidEventChannelSO, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1656871805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4198,5 +4258,4 @@ SceneRoots:
   - {fileID: 1368874510}
   - {fileID: 289042323}
   - {fileID: 2106473823761977035}
-  - {fileID: 871964736}
   - {fileID: 794424581}
