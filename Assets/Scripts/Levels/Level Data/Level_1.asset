@@ -15,7 +15,6 @@ MonoBehaviour:
   levelName: Level 1
   sceneName: Level1
   parMoveCount: 1
-  startingMoves: 1000
+  startingMoves: 1
   unlockedActionNames:
   - JumpAction
-  - GrappleAction
