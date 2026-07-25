@@ -19,9 +19,6 @@ public abstract class MoveActionBase : MonoBehaviour
     [SerializeField] protected int cost = 1;
     [SerializeField] protected float cooldown = 0f;
 
-    [Tooltip("Played when the action successfully fires. Leave empty for silence.")]
-    [SerializeField] protected SoundEventSO performSound;
-
     protected PlayerMovement2D movement;
     private float cooldownTimer;
 
@@ -58,9 +55,6 @@ public abstract class MoveActionBase : MonoBehaviour
 
         cooldownTimer = cooldown;
         Execute();
-
-        // One hook here covers Jump, Dash and every future action — no action subclass needs audio code.
-        AudioManager.Play(performSound);
     }
 
     /// <summary>Return false to silently block the action (e.g. dash only while airborne).</summary>
