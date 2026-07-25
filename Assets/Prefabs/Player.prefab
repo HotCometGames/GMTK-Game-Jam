@@ -394,7 +394,7 @@ MonoBehaviour:
   cooldown: 0.1
   performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a41, type: 2}
   performVfx: {fileID: 11400000, guid: e04813d54ecb69741bf1261a4b6f16b2, type: 2}
-  jumpForce: 8
+  jumpForce: 6
 --- !u!114 &-1302196782285357444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   cooldown: 0.1
   performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a42, type: 2}
   performVfx: {fileID: 11400000, guid: 5004623b7154fa040a5216c273d8e087, type: 2}
-  dashSpeed: 18
+  dashSpeed: 10
   dashDuration: 0.15
   dashTrail: {fileID: 5110856061869720997}
 --- !u!114 &-1852962083824492473

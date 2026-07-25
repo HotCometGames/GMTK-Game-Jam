@@ -41,6 +41,7 @@ public abstract class MoveActionBase : MonoBehaviour
         if (cooldownTimer > 0f)
             cooldownTimer -= Time.deltaTime;
 
+        if (!movement.AcceptsInput) return;
         if (!IsUnlocked) return;
         if (cooldownTimer > 0f) return;
         if (!Input.GetKeyDown(inputKey)) return;
@@ -84,7 +85,9 @@ public abstract class MoveActionBase : MonoBehaviour
     /// <summary>The actual gameplay effect — apply velocity, break a wall, etc.</summary>
     protected abstract void Execute();
 
-    /// <summary>Called when the player tried this action with zero moves left. Default: does nothing extra,
-    /// MoveBudgetSO.onMovesDepleted already fired for RunController/UI to react to (e.g. trigger death).</summary>
-    protected virtual void OnDepleted() { }
+    /// <summary>Called when the player tried an action without enough moves to pay its cost.</summary>
+    protected virtual void OnDepleted()
+    {
+        movement.Die();
+    }
 }

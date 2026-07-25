@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelSequenceSO levelSequence;
     [SerializeField] private MoveBudgetSO moveBudget;
     [SerializeField] private SceneFader sceneFader;
+    [SerializeField, Min(0f)] private float transitionDelay = 0.5f;
 
     [Header("Listens To")]
     [SerializeField] private VoidEventChannelSO onRoundComplete;   // raised by LevelExitTrigger
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleStartRun()
     {
-        LoadLevel(0);
+        LoadLevel(0, false);
     }
 
     // Waits at the title screen — LoadLevel(0) only runs once HandleStartRun() fires.
@@ -91,7 +92,7 @@ public class GameManager : MonoBehaviour
         LoadLevel(currentLevelIndex);
     }
 
-    private void LoadLevel(int index)
+    private void LoadLevel(int index, bool delayBeforeFade = true)
     {
         if (isLoading) return;
         if (index < 0 || index >= levelSequence.levels.Count)
@@ -100,13 +101,24 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        DisableCurrentPlayerInput();
         currentLevelIndex = index;
-        StartCoroutine(LoadLevelRoutine(levelSequence.levels[index]));
+        StartCoroutine(LoadLevelRoutine(levelSequence.levels[index], delayBeforeFade));
     }
 
-    private IEnumerator LoadLevelRoutine(LevelDataSO levelData)
+    private static void DisableCurrentPlayerInput()
+    {
+        PlayerMovement2D player = FindFirstObjectByType<PlayerMovement2D>();
+        if (player != null)
+            player.SetInputEnabled(false);
+    }
+
+    private IEnumerator LoadLevelRoutine(LevelDataSO levelData, bool delayBeforeFade)
     {
         isLoading = true;
+
+        if (delayBeforeFade && transitionDelay > 0f)
+            yield return new WaitForSeconds(transitionDelay);
 
         if (sceneFader != null)
             yield return StartCoroutine(sceneFader.FadeOut());

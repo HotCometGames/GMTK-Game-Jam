@@ -42,6 +42,7 @@ public class PlayerMovement2D : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public bool IsTouchingWall { get; private set; }
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
+    public bool AcceptsInput { get; private set; } = true;
 
     /// <summary>True only on the single frame the player touches down. Free for landing VFX/squash later.</summary>
     public bool JustLanded { get; private set; }
@@ -77,10 +78,18 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (AcceptsInput)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if (horizontalInput > 0) FacingDirection = 1;
-        else if (horizontalInput < 0) FacingDirection = -1;
+            if (horizontalInput > 0) FacingDirection = 1;
+            else if (horizontalInput < 0) FacingDirection = -1;
+        }
+        else
+        {
+            horizontalInput = 0f;
+        }
+
         transform.localScale = new Vector3(FacingDirection, 1f, 1f);
 
         IsGrounded = groundCheck != null &&
@@ -102,7 +111,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (transform.position.y < -20f)
         {
-            onPlayerDied?.Raise();
+            Die();
         }
 
         Animation();
@@ -155,6 +164,17 @@ public class PlayerMovement2D : MonoBehaviour
     /// <summary>Actions call this to temporarily take over horizontal movement (e.g. during a dash).</summary>
     public void SetHorizontalOverride(bool active) => horizontalOverrideActive = active;
 
+    /// <summary>Enables or blocks player-controlled movement and actions during scene transitions.</summary>
+    public void SetInputEnabled(bool enabled)
+    {
+        AcceptsInput = enabled;
+        if (!enabled)
+        {
+            horizontalInput = 0f;
+            SetHorizontalOverride(false);
+        }
+    }
+
     /// <summary>Set vertical velocity directly (used by Jump).</summary>
     public void SetVerticalVelocity(float y)
     {
@@ -166,6 +186,12 @@ public class PlayerMovement2D : MonoBehaviour
     {
         Rb.linearVelocity = velocity;
         currentHorizontalVelocity = velocity.x;
+    }
+
+    /// <summary>Raises the shared death event used by hazards, move depletion, and the run manager.</summary>
+    public void Die()
+    {
+        onPlayerDied?.Raise();
     }
 
     private void OnDrawGizmosSelected()
