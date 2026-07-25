@@ -1,0 +1,58 @@
+{
+  "levelName": "Level 5",
+  "sceneName": "Level5",
+  "gridWidth": 28,
+  "gridHeight": 14,
+  "tileSize": 1,
+  "startingMoves": 8,
+  "parMoveCount": 7,
+  "unlockedActions": ["JumpAction", "DashAction", "PushAction", "GrappleAction"],
+
+  "tiles": [
+    { "x": 0, "y": 0, "type": "Bottom Left Tile" },
+    { "x": 1, "y": 0, "type": "Bottom Middle Tile" },
+    { "x": 2, "y": 0, "type": "Bottom Middle Tile" },
+    { "x": 3, "y": 0, "type": "Bottom Middle Tile" },
+    { "x": 4, "y": 0, "type": "Bottom Right Tile" },
+    { "x": 0, "y": 1, "type": "Top Left Tile" },
+    { "x": 1, "y": 1, "type": "Top Middle Tile" },
+    { "x": 2, "y": 1, "type": "Top Middle Tile" },
+    { "x": 3, "y": 1, "type": "Top Middle Tile" },
+    { "x": 4, "y": 1, "type": "Top Right Tile" },
+
+    { "x": 6, "y": 3, "type": "Bottom Left Tile" },
+    { "x": 7, "y": 3, "type": "Bottom Middle Tile" },
+    { "x": 8, "y": 3, "type": "Bottom Right Tile" },
+    { "x": 6, "y": 4, "type": "Top Left Tile" },
+    { "x": 7, "y": 4, "type": "Top Middle Tile" },
+    { "x": 8, "y": 4, "type": "Top Right Tile" },
+
+    { "x": 17, "y": 3, "type": "Bottom Left Tile" },
+    { "x": 18, "y": 3, "type": "Bottom Middle Tile" },
+    { "x": 19, "y": 3, "type": "Bottom Middle Tile" },
+    { "x": 20, "y": 3, "type": "Bottom Right Tile" },
+    { "x": 17, "y": 4, "type": "Top Left Tile" },
+    { "x": 18, "y": 4, "type": "Top Middle Tile" },
+    { "x": 19, "y": 4, "type": "Top Middle Tile" },
+    { "x": 20, "y": 4, "type": "Top Right Tile" },
+
+    { "x": 25, "y": 8, "type": "Bottom Left Tile" },
+    { "x": 26, "y": 8, "type": "Bottom Middle Tile" },
+    { "x": 27, "y": 8, "type": "Bottom Right Tile" },
+    { "x": 25, "y": 9, "type": "Top Left Tile" },
+    { "x": 26, "y": 9, "type": "Top Middle Tile" },
+    { "x": 27, "y": 9, "type": "Top Right Tile" },
+
+    { "x": 26, "y": 10, "type": "Door Bottom Left" },
+    { "x": 27, "y": 10, "type": "Door Bottom Right" },
+    { "x": 26, "y": 11, "type": "Door Top Left" },
+    { "x": 27, "y": 11, "type": "Door Top Right" }
+  ],
+
+  "prefabs": [
+    { "type": "PlayerPrefab", "x": 1, "y": 2 },
+    { "type": "MovableCrate", "x": 8, "y": 5 },
+    { "type": "DeathTrigger", "x": 13.5, "y": -4, "width": 30, "height": 1 },
+    { "type": "NextLevel", "x": 26.5, "y": 11, "width": 2, "height": 2 }
+  ]
+}
