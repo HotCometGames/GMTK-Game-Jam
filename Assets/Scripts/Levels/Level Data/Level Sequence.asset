@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Level Sequence
   m_EditorClassIdentifier: 
   levels:
+  - {fileID: 11400000, guid: 31ce97dbc98db4682932a20ccb345c61, type: 2}
+  - {fileID: 11400000, guid: 8ed6a0c52677c407590049de2c984dc3, type: 2}
   - {fileID: 11400000, guid: 3d20554c9c3de004585a410425d820a6, type: 2}
   - {fileID: 11400000, guid: 2a0c678e76d062b41a54a2683da259c7, type: 2}
   - {fileID: 11400000, guid: 78f16fdcabd54124f8c2fd71c58462df, type: 2}
