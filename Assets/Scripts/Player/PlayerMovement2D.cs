@@ -30,6 +30,12 @@ public class PlayerMovement2D : MonoBehaviour
              "(the 'stuck to the wall' freeze).")]
     [SerializeField] private PhysicsMaterial2D wallFrictionOverride;
 
+    [Header("Landing")]
+    [Tooltip("Soft 'cushion' thud on touchdown. Leave empty for silence.")]
+    [SerializeField] private SoundEventSO landingSound;
+    [Tooltip("Minimum downward speed on touchdown to count as a landing — keeps stepping off a small ledge silent.")]
+    [SerializeField] private float landingSpeedThreshold = 5f;
+
     [SerializeField] private VoidEventChannelSO onPlayerDied;
     public Rigidbody2D Rb { get; private set; }
     public Animator Animator { get; private set; }
@@ -37,8 +43,13 @@ public class PlayerMovement2D : MonoBehaviour
     public bool IsTouchingWall { get; private set; }
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
 
+    /// <summary>True only on the single frame the player touches down. Free for landing VFX/squash later.</summary>
+    public bool JustLanded { get; private set; }
+
     private float horizontalInput;
     private float currentHorizontalVelocity;
+    private bool wasGrounded;
+    private float lastAirborneFallSpeed;
 
     private void Awake()
     {
@@ -65,6 +76,16 @@ public class PlayerMovement2D : MonoBehaviour
 
         IsGrounded = groundCheck != null &&
             Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Touchdown is a rising edge on IsGrounded. By the time physics reports us grounded the
+        // Rigidbody has already been stopped by the collision, so judge the impact on the speed we
+        // carried in the air last frame rather than on the current (near-zero) velocity.
+        JustLanded = IsGrounded && !wasGrounded;
+        if (JustLanded && lastAirborneFallSpeed < -landingSpeedThreshold)
+            AudioManager.Play(landingSound);
+
+        wasGrounded = IsGrounded;
+        lastAirborneFallSpeed = IsGrounded ? 0f : Rb.linearVelocity.y;
 
         IsTouchingWall = wallCheck != null &&
             Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
