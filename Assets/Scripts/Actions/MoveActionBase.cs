@@ -22,6 +22,9 @@ public abstract class MoveActionBase : MonoBehaviour
     [Tooltip("Played when the action successfully fires. Leave empty for silence.")]
     [SerializeField] protected SoundEventSO performSound;
 
+    [Tooltip("Burst spawned when the action successfully fires. Leave empty for none.")]
+    [SerializeField] protected VfxEventSO performVfx;
+
     protected PlayerMovement2D movement;
     private float cooldownTimer;
 
@@ -60,9 +63,21 @@ public abstract class MoveActionBase : MonoBehaviour
         cooldownTimer = cooldown;
         Execute();
 
-        // One hook here covers Jump, Dash and every future action — no action subclass needs audio code.
+        // One hook here covers Jump, Dash and every future action — no action subclass needs
+        // audio or VFX code, only an optional VfxOrigin/VfxDirection override to aim the burst.
         AudioManager.Play(performSound);
+        VfxManager.Play(performVfx, VfxOrigin, VfxDirection);
     }
+
+    /// <summary>
+    /// Where this action's burst spawns. Defaults to the player's feet, which is right for anything
+    /// that kicks up off the ground; override for effects that should come from elsewhere.
+    /// </summary>
+    protected virtual Vector3 VfxOrigin =>
+        movement != null && movement.GroundCheck != null ? movement.GroundCheck.position : transform.position;
+
+    /// <summary>Which way this action's burst sprays. Default is straight up.</summary>
+    protected virtual Vector2 VfxDirection => Vector2.up;
 
     /// <summary>Return false to silently block the action (e.g. dash only while airborne).</summary>
     protected abstract bool CanExecute();

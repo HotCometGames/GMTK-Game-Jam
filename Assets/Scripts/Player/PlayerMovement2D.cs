@@ -47,6 +47,15 @@ public class PlayerMovement2D : MonoBehaviour
     /// <summary>True only on the single frame the player touches down. Free for landing VFX/squash later.</summary>
     public bool JustLanded { get; private set; }
 
+    /// <summary>
+    /// Downward speed (negative) carried into the most recent touchdown. Pairs with JustLanded so a
+    /// landing effect can scale with fall height instead of firing flat every time.
+    /// </summary>
+    public float LastImpactSpeed { get; private set; }
+
+    /// <summary>The feet marker used for ground detection — the natural spawn point for dust VFX.</summary>
+    public Transform GroundCheck => groundCheck;
+
     private float horizontalInput;
     private float currentHorizontalVelocity;
     private bool wasGrounded;
@@ -90,6 +99,7 @@ public class PlayerMovement2D : MonoBehaviour
         // Rigidbody has already been stopped by the collision, so judge the impact on the speed we
         // carried in the air last frame rather than on the current (near-zero) velocity.
         JustLanded = IsGrounded && !wasGrounded;
+        if (JustLanded) LastImpactSpeed = lastAirborneFallSpeed;
         if (JustLanded && lastAirborneFallSpeed < -landingSpeedThreshold)
             AudioManager.Play(landingSound);
 
