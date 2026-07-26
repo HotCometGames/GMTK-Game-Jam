@@ -354,6 +354,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  pushLayer:
+    serializedVersion: 2
+    m_Bits: 256
   wallCheck: {fileID: 34275036989461984}
   wallCheckRadius: 0.15
   wallLayer:
@@ -395,6 +398,8 @@ MonoBehaviour:
   performSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a41, type: 2}
   performVfx: {fileID: 11400000, guid: e04813d54ecb69741bf1261a4b6f16b2, type: 2}
   jumpForce: 6
+  coyoteTime: 0.05
+  jumpBufferTime: 0.12
 --- !u!114 &-1302196782285357444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
-  inputKey: 323
+  inputKey: 106
   cost: 1
   cooldown: 0.1
   performSound: {fileID: 0}
@@ -451,7 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
-  inputKey: 324
+  inputKey: 107
   cost: 1
   cooldown: 0.2
   performSound: {fileID: 0}

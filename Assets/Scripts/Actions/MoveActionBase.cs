@@ -44,9 +44,18 @@ public abstract class MoveActionBase : MonoBehaviour
         if (!movement.AcceptsInput) return;
         if (!IsUnlocked) return;
         if (cooldownTimer > 0f) return;
-        if (!Input.GetKeyDown(inputKey)) return;
+        if (!IsTriggerRequested()) return;
 
         TryTrigger();
+    }
+
+    /// <summary>
+    /// Whether this action currently wants to fire. Most actions trigger only on the key-down
+    /// frame; actions such as jump can override this to keep a short input buffer alive.
+    /// </summary>
+    protected virtual bool IsTriggerRequested()
+    {
+        return Input.GetKeyDown(inputKey);
     }
 
     private void TryTrigger()

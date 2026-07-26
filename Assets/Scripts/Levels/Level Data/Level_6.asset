@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Level_6
   m_EditorClassIdentifier: 
   levelName: Level 6
-  sceneName: Level 6
+  sceneName: Level6
   parMoveCount: 0
   startingMoves: 3
   unlockedActionNames:
   - JumpAction
+  - PushAction
