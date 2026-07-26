@@ -15,7 +15,7 @@ MonoBehaviour:
   levelName: LevelR
   sceneName: LevelR
   parMoveCount: 0
-  startingMoves: 8
+  startingMoves: 7
   unlockedActionNames:
   - GrappleAction
   - JumpAction
