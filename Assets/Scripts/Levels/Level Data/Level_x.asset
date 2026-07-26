@@ -18,3 +18,4 @@ MonoBehaviour:
   startingMoves: 3
   unlockedActionNames:
   - DashAction
+  - JumpAction
