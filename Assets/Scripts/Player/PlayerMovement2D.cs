@@ -24,6 +24,7 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask pushLayer; // for pushable objects that count as "ground" for jumping
     [SerializeField] private Transform wallCheck;
     [SerializeField] private float wallCheckRadius = 0.15f;
     [SerializeField] private LayerMask wallLayer;
@@ -97,7 +98,7 @@ public class PlayerMovement2D : MonoBehaviour
         transform.localScale = new Vector3(FacingDirection, 1f, 1f);
 
         IsGrounded = groundCheck != null &&
-            Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, pushLayer));
 
         // Touchdown is a rising edge on IsGrounded. By the time physics reports us grounded the
         // Rigidbody has already been stopped by the collision, so judge the impact on the speed we
