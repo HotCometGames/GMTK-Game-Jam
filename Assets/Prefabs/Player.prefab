@@ -349,6 +349,7 @@ MonoBehaviour:
   moveSpeed: 4.5
   acceleration: 40
   deceleration: 50
+  airborneHorizontalSpeedMultiplier: 1
   groundCheck: {fileID: 6998943126127845302}
   groundCheckRadius: 0.15
   groundLayer:

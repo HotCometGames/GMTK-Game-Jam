@@ -16,6 +16,10 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private float acceleration = 40f;   // units/sec^2 while input is held
     [SerializeField] private float deceleration = 50f;   // units/sec^2 while no input (or overshooting)
 
+    [Header("Air Control")]
+    [Tooltip("Multiplies normal left/right movement speed while airborne. One keeps the regular speed.")]
+    [SerializeField, Min(0f)] private float airborneHorizontalSpeedMultiplier = 1f;
+
     [Header("Ground / Wall Detection")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
@@ -143,7 +147,12 @@ public class PlayerMovement2D : MonoBehaviour
         // Free horizontal movement — actions can override this per-frame via SetHorizontalOverride
         if (!horizontalOverrideActive)
         {
-            float targetVelocity = horizontalInput * moveSpeed;
+            float horizontalSpeedMultiplier = IsGrounded
+                ? 1f
+                : airborneHorizontalSpeedMultiplier;
+
+            float targetVelocity =
+                horizontalInput * moveSpeed * horizontalSpeedMultiplier;
 
             // If we're touching a wall AND actively pushing into it (input matches the
             // direction we're facing, which is the direction wallCheck points), don't
