@@ -464,7 +464,7 @@ MonoBehaviour:
   cooldown: 0.2
   performSound: {fileID: 0}
   performVfx: {fileID: 0}
-  range: 6
+  range: 8.4
   pullSpeed: 12
   maxGrappleDuration: 2
   upwardBias: 0.7
