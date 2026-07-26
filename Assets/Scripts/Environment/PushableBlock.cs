@@ -12,12 +12,16 @@ public class PushableBlock : MonoBehaviour
     [SerializeField] private float pushSpeed = 5f;
     [SerializeField] private float friction = 2f;
     [SerializeField] private float stopThreshold = 0.05f;
+    [SerializeField] private float gravity = 20f;
+    [SerializeField] private float maxFallSpeed = 20f;
+    [SerializeField] private float supportCheckDistance = 0.05f;
     [Tooltip("What counts as 'blocked' when checking the destination tile - walls, other blocks, etc.")]
     [SerializeField] private LayerMask blockingLayer;
     [SerializeField] private LayerMask pushingLayer;
     private Rigidbody2D rb;
     private Vector2 moveDirection = Vector2.zero;
     private ContactFilter2D contactFilter;
+    private int supportLayerMaskInt;
 
     private void Awake()
     {
@@ -32,10 +36,28 @@ public class PushableBlock : MonoBehaviour
         contactFilter.useTriggers = false;
         contactFilter.useLayerMask = true;
         contactFilter.layerMask = blockingLayer.value | pushingLayer.value;
+        supportLayerMaskInt = blockingLayer.value | pushingLayer.value;
     }
 
     private void FixedUpdate()
     {
+        // First: check support underneath. If nothing supports the block, let it fall.
+        Vector2 pos = rb.position;
+        Vector2 boxCenter = pos + Vector2.down * (tileSize * 0.5f + supportCheckDistance);
+        Vector2 boxSize = new Vector2(tileSize * 0.9f, 0.05f);
+        bool grounded = Physics2D.OverlapBox(boxCenter, boxSize, 0f, supportLayerMaskInt) != null;
+
+        if (!grounded)
+        {
+            // Falling: apply gravity to vertical velocity, clamp, and stop horizontal push movement
+            float vy = rb.linearVelocity.y - gravity * Time.fixedDeltaTime;
+            vy = Mathf.Max(vy, -maxFallSpeed);
+            rb.linearVelocity = new Vector2(0f, vy);
+            moveDirection = Vector2.zero;
+            return;
+        }
+
+        // If grounded, handle horizontal movement and friction.
         if (rb.linearVelocity.sqrMagnitude > 0f)
         {
             if (moveDirection != Vector2.zero)
@@ -90,8 +112,26 @@ public class PushableBlock : MonoBehaviour
         // Stop moving when we hit a wall or another block.
         if (IsInLayerMask(collision.gameObject.layer, blockingLayer) || IsInLayerMask(collision.gameObject.layer, pushingLayer))
         {
+            // If the contact normal indicates we landed on something beneath us, snap to grid Y.
+            bool landed = false;
+            foreach (var contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    landed = true;
+                    break;
+                }
+            }
+
             rb.linearVelocity = Vector2.zero;
             moveDirection = Vector2.zero;
+
+            if (landed)
+            {
+                Vector3 p = transform.position;
+                p.y = Mathf.Round(p.y / tileSize) * tileSize;
+                transform.position = p;
+            }
         }
     }
 
