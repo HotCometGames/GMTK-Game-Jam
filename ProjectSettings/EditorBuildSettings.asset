@@ -38,5 +38,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: b94a5bf179c33bd4aa0bc43615f5e401
+  - enabled: 1
+    path: Assets/Scenes/Levely.unity
+    guid: bea4e5c335e6c42039775b894f910221
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
