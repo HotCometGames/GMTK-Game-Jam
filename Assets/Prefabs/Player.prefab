@@ -354,6 +354,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  pushLayer:
+    serializedVersion: 2
+    m_Bits: 256
   wallCheck: {fileID: 34275036989461984}
   wallCheckRadius: 0.15
   wallLayer:
@@ -429,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
-  inputKey: 323
+  inputKey: 106
   cost: 1
   cooldown: 0.1
   performSound: {fileID: 0}
@@ -451,7 +454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveBudget: {fileID: 11400000, guid: de4e9534ebf8ae54aaa52712642241f1, type: 2}
-  inputKey: 324
+  inputKey: 107
   cost: 1
   cooldown: 0.2
   performSound: {fileID: 0}
