@@ -777,7 +777,7 @@ MonoBehaviour:
   counterText: {fileID: 850642954}
   format: 'Moves: {0}'
   lowMovesThreshold: 1
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  normalColor: {r: 0, g: 0, b: 0, a: 1}
   lowMovesColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &850642954
 MonoBehaviour:

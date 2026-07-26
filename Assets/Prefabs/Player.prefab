@@ -366,6 +366,8 @@ MonoBehaviour:
   landingSound: {fileID: 11400000, guid: 7a1c4e0b3d9f42a8b5061c7e8d2f3a43, type: 2}
   landingSpeedThreshold: 5
   onPlayerDied: {fileID: 11400000, guid: 0877c2b82447b814a8f4b38de8d06eb2, type: 2}
+  onMenuOpened: {fileID: 11400000, guid: 1b4089af2a79ca945946e64092586bca, type: 2}
+  onMenuClosed: {fileID: 11400000, guid: c54f023a130d44c439d3ecd14b040e1c, type: 2}
 --- !u!114 &102077792284116639
 MonoBehaviour:
   m_ObjectHideFlags: 0

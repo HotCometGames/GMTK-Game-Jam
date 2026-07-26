@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private bool startMenuActiveOnStart = true;
     [SerializeField] private VoidEventChannelSO startMenuActiveEvent;
     [SerializeField] private VoidEventChannelSO settingsMenuActiveEvent;
     [SerializeField] private VoidEventChannelSO howToPlayMenuActiveEvent;
     [SerializeField] private VoidEventChannelSO controlsMenuActiveEvent;
+    [SerializeField] private VoidEventChannelSO deactivateAllMenusEvent;
 
     [SerializeField] private GameObject startMenu;
     [SerializeField] private GameObject settingsMenu;
@@ -13,7 +15,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject controlsMenu;
     void Start()
     {
-        ActivateStartMenu();
+        if (startMenuActiveOnStart)
+        {
+            ActivateStartMenu();
+        }
     }
     private void OnEnable()
     {
@@ -25,6 +30,8 @@ public class MenuManager : MonoBehaviour
             howToPlayMenuActiveEvent.OnEventRaised += ActivateHowToPlayMenu;
         if (controlsMenuActiveEvent != null)
             controlsMenuActiveEvent.OnEventRaised += ActivateControlsMenu;
+        if (deactivateAllMenusEvent != null)
+            deactivateAllMenusEvent.OnEventRaised += DeactivateAllMenus;
     }
 
     private void OnDisable()
@@ -37,6 +44,8 @@ public class MenuManager : MonoBehaviour
             howToPlayMenuActiveEvent.OnEventRaised -= ActivateHowToPlayMenu;
         if (controlsMenuActiveEvent != null)
             controlsMenuActiveEvent.OnEventRaised -= ActivateControlsMenu;
+        if (deactivateAllMenusEvent != null)
+            deactivateAllMenusEvent.OnEventRaised -= DeactivateAllMenus;
     }
 
     private void ActivateStartMenu()
@@ -69,5 +78,13 @@ public class MenuManager : MonoBehaviour
         settingsMenu.SetActive(false);
         howToPlayMenu.SetActive(false);
         controlsMenu.SetActive(true);
+    }
+
+    private void DeactivateAllMenus()
+    {
+        startMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        howToPlayMenu.SetActive(false);
+        controlsMenu.SetActive(false);
     }
 }
