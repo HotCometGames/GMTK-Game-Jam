@@ -48,6 +48,8 @@ public class PlayerMovement2D : MonoBehaviour
     public bool IsTouchingWall { get; private set; }
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
     public bool AcceptsInput { get; private set; } = true;
+    [SerializeField] private VoidEventChannelSO onMenuOpened;
+    [SerializeField] private VoidEventChannelSO onMenuClosed;
 
     /// <summary>True only on the single frame the player touches down. Free for landing VFX/squash later.</summary>
     public bool JustLanded { get; private set; }
@@ -79,6 +81,24 @@ public class PlayerMovement2D : MonoBehaviour
                 ? wallFrictionOverride
                 : new PhysicsMaterial2D("PlayerNoFriction") { friction = 0f, bounciness = 0f };
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised -= () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised -= () => SetInputEnabled(true);
+    }
+
+    private void OnEnable()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised += () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised += () => SetInputEnabled(true);
+    }
+
+    private void OnDisable()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised -= () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised -= () => SetInputEnabled(true);
     }
 
     private void Update()

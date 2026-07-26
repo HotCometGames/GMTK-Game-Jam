@@ -15,7 +15,6 @@ MonoBehaviour:
   levelName: Levelx
   sceneName: Levelx
   parMoveCount: 0
-  startingMoves: 6
+  startingMoves: 3
   unlockedActionNames:
-  - JumpAction
   - DashAction
