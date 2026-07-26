@@ -48,6 +48,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levelr1.unity
     guid: 601864ef5cae03544ac9d8eaacaa03ab
   - enabled: 1
+    path: Assets/Scenes/LevelR.unity
+    guid: ce97b634eb4c34a148646633de00cf9e
+  - enabled: 1
     path: Assets/Scenes/Levely.unity
     guid: bea4e5c335e6c42039775b894f910221
   - enabled: 1
