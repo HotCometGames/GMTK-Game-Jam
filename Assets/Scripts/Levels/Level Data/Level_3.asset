@@ -15,6 +15,6 @@ MonoBehaviour:
   levelName: Level 3
   sceneName: Level3
   parMoveCount: 0
-  startingMoves: 4
+  startingMoves: 5
   unlockedActionNames:
-  - JumpAction
+  - DashAction

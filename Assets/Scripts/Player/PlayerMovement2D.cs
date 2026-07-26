@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 /// <summary>
 /// Handles FREE movement only: horizontal walking, gravity, ground/wall checks, facing direction.
 /// Costed abilities (jump, dash, etc.) are separate components under Scripts/Actions
@@ -16,13 +17,21 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private float acceleration = 40f;   // units/sec^2 while input is held
     [SerializeField] private float deceleration = 50f;   // units/sec^2 while no input (or overshooting)
 
+
+    [Header("Air Control")]
+    [Tooltip("Multiplies normal left/right movement speed while airborne. One keeps the regular speed.")]
+    [SerializeField, Min(0f)] private float airborneHorizontalSpeedMultiplier = 1f;
+
+
     [Header("Ground / Wall Detection")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask pushLayer; // for pushable objects that count as "ground" for jumping
     [SerializeField] private Transform wallCheck;
     [SerializeField] private float wallCheckRadius = 0.15f;
     [SerializeField] private LayerMask wallLayer;
+
 
     [Header("Wall Contact")]
     [Tooltip("If no material is assigned, one with 0 friction/bounciness is created automatically. " +
@@ -30,20 +39,51 @@ public class PlayerMovement2D : MonoBehaviour
              "(the 'stuck to the wall' freeze).")]
     [SerializeField] private PhysicsMaterial2D wallFrictionOverride;
 
+
+    [Header("Landing")]
+    [Tooltip("Soft 'cushion' thud on touchdown. Leave empty for silence.")]
+    [SerializeField] private SoundEventSO landingSound;
+    [Tooltip("Minimum downward speed on touchdown to count as a landing — keeps stepping off a small ledge silent.")]
+    [SerializeField] private float landingSpeedThreshold = 5f;
+
+
     [SerializeField] private VoidEventChannelSO onPlayerDied;
     public Rigidbody2D Rb { get; private set; }
     public Animator Animator { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool IsTouchingWall { get; private set; }
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
+    public bool AcceptsInput { get; private set; } = true;
+    [SerializeField] private VoidEventChannelSO onMenuOpened;
+    [SerializeField] private VoidEventChannelSO onMenuClosed;
+
+
+    /// <summary>True only on the single frame the player touches down. Free for landing VFX/squash later.</summary>
+    public bool JustLanded { get; private set; }
+
+
+    /// <summary>
+    /// Downward speed (negative) carried into the most recent touchdown. Pairs with JustLanded so a
+    /// landing effect can scale with fall height instead of firing flat every time.
+    /// </summary>
+    public float LastImpactSpeed { get; private set; }
+
+
+    /// <summary>The feet marker used for ground detection — the natural spawn point for dust VFX.</summary>
+    public Transform GroundCheck => groundCheck;
+
 
     private float horizontalInput;
     private float currentHorizontalVelocity;
+    private bool wasGrounded;
+    private float lastAirborneFallSpeed;
+
 
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
+
 
         // Ensure the rigidbody has zero friction so pressing into a wall never
         // produces contact friction that drags down vertical velocity.
@@ -55,34 +95,91 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
+
+    private void OnDestroy()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised -= () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised -= () => SetInputEnabled(true);
+    }
+
+
+    private void OnEnable()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised += () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised += () => SetInputEnabled(true);
+    }
+
+
+    private void OnDisable()
+    {
+        if (onMenuOpened != null) onMenuOpened.OnEventRaised -= () => SetInputEnabled(false);
+        if (onMenuClosed != null) onMenuClosed.OnEventRaised -= () => SetInputEnabled(true);
+    }
+
+
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (AcceptsInput)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if (horizontalInput > 0) FacingDirection = 1;
-        else if (horizontalInput < 0) FacingDirection = -1;
+
+            if (horizontalInput > 0) FacingDirection = 1;
+            else if (horizontalInput < 0) FacingDirection = -1;
+        }
+        else
+        {
+            horizontalInput = 0f;
+        }
+
+
         transform.localScale = new Vector3(FacingDirection, 1f, 1f);
 
+
         IsGrounded = groundCheck != null &&
-            Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, pushLayer));
+
+
+        // Touchdown is a rising edge on IsGrounded. By the time physics reports us grounded the
+        // Rigidbody has already been stopped by the collision, so judge the impact on the speed we
+        // carried in the air last frame rather than on the current (near-zero) velocity.
+        JustLanded = IsGrounded && !wasGrounded;
+        if (JustLanded) LastImpactSpeed = lastAirborneFallSpeed;
+        if (JustLanded && lastAirborneFallSpeed < -landingSpeedThreshold)
+            AudioManager.Play(landingSound);
+
+
+        wasGrounded = IsGrounded;
+        lastAirborneFallSpeed = IsGrounded ? 0f : Rb.linearVelocity.y;
+
 
         IsTouchingWall = wallCheck != null &&
             Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
 
+
         if (transform.position.y < -20f)
         {
-            onPlayerDied?.Raise();
+            Die();
         }
+
 
         Animation();
     }
+
 
     private void FixedUpdate()
     {
         // Free horizontal movement — actions can override this per-frame via SetHorizontalOverride
         if (!horizontalOverrideActive)
         {
-            float targetVelocity = horizontalInput * moveSpeed;
+            float horizontalSpeedMultiplier = IsGrounded
+                ? 1f
+                : airborneHorizontalSpeedMultiplier;
+
+
+            float targetVelocity =
+                horizontalInput * moveSpeed * horizontalSpeedMultiplier;
+
 
             // If we're touching a wall AND actively pushing into it (input matches the
             // direction we're facing, which is the direction wallCheck points), don't
@@ -97,8 +194,10 @@ public class PlayerMovement2D : MonoBehaviour
                 targetVelocity = 0f;
             }
 
+
             float rate = Mathf.Abs(horizontalInput) > 0.01f && !pushingIntoWall ? acceleration : deceleration;
             currentHorizontalVelocity = Mathf.MoveTowards(currentHorizontalVelocity, targetVelocity, rate * Time.fixedDeltaTime);
+
 
             Rb.linearVelocity = new Vector2(currentHorizontalVelocity, Rb.linearVelocity.y);
         }
@@ -110,6 +209,7 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
+
     private void Animation()
     {
         Animator.SetFloat("Speed", Mathf.Abs(currentHorizontalVelocity));
@@ -117,12 +217,28 @@ public class PlayerMovement2D : MonoBehaviour
         Animator.SetFloat("YSpeed", Rb.linearVelocity.y);
     }
 
+
     // ---- Hooks for action scripts (Jump, Dash, etc.) to use ----
+
 
     private bool horizontalOverrideActive;
 
+
     /// <summary>Actions call this to temporarily take over horizontal movement (e.g. during a dash).</summary>
     public void SetHorizontalOverride(bool active) => horizontalOverrideActive = active;
+
+
+    /// <summary>Enables or blocks player-controlled movement and actions during scene transitions.</summary>
+    public void SetInputEnabled(bool enabled)
+    {
+        AcceptsInput = enabled;
+        if (!enabled)
+        {
+            horizontalInput = 0f;
+            SetHorizontalOverride(false);
+        }
+    }
+
 
     /// <summary>Set vertical velocity directly (used by Jump).</summary>
     public void SetVerticalVelocity(float y)
@@ -130,12 +246,21 @@ public class PlayerMovement2D : MonoBehaviour
         Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, y);
     }
 
+
     /// <summary>Apply an instantaneous velocity, e.g. a dash burst.</summary>
     public void SetVelocity(Vector2 velocity)
     {
         Rb.linearVelocity = velocity;
         currentHorizontalVelocity = velocity.x;
     }
+
+
+    /// <summary>Raises the shared death event used by hazards, move depletion, and the run manager.</summary>
+    public void Die()
+    {
+        onPlayerDied?.Raise();
+    }
+
 
     private void OnDrawGizmosSelected()
     {
@@ -145,3 +270,6 @@ public class PlayerMovement2D : MonoBehaviour
         if (wallCheck != null) Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
     }
 }
+
+
+

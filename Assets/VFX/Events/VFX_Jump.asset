@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc54bca6ce41ba4ab4aaf45f6ded729, type: 3}
+  m_Name: VFX_Jump
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  countMin: 4
+  countMax: 7
+  speedMin: 1
+  speedMax: 2.4
+  lifetime: 0.3
+  coneAngle: 55
+  alignToDirection: 1
+  gravity: 0.5
+  tint: {r: 0.937255, g: 0.447059, b: 0.180392, a: 1}
+  sizeMin: 0.04
+  sizeMax: 0.1
+  rotationSpeed: 110
+  retriggerCooldown: 0.05
