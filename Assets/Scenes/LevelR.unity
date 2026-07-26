@@ -240,7 +240,7 @@ TextMesh:
   m_GameObject: {fileID: 392793609}
   m_Text: 'Actions Available:
 
-    Jump (Space)
+    Push (K)
 
     Dash (Shift)
 
